@@ -18,7 +18,7 @@ module.exports = function (path) {
     fs.unlinkSync('output');
     fs.unlinkSync('done');
 
-    return output;
+    return output.toString('utf-8');
   }
 
   var command = 'git log -n1 --pretty=oneline';
