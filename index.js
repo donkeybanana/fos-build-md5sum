@@ -1,14 +1,31 @@
 'use strict';
 var exec = require('child_process').exec;
-module.exports = function (path, next) {
+var fs = require('fs');
+module.exports = function (path) {
+  function execSync(command) {
+    // Run the command in a subshell
+    exec(command + ' 2>&1 1>output && echo done! > done');
+
+    // Block the event loop until the command has executed.
+    while (!fs.existsSync('done')) {
+      // Do nothing
+    }
+
+    // Read the output
+    var output = fs.readFileSync('output');
+
+    // Delete temporary files.
+    fs.unlinkSync('output');
+    fs.unlinkSync('done');
+
+    return output;
+  }
+
   var command = 'git log -n1 --pretty=oneline';
 
   if (path) {
     command += ' -- ' + path;
   }
 
-  exec(command, function(err, stdout, stderr) {
-    var HEAD = stdout.split('\n')[0];
-    next(stderr || err, HEAD);
-  });
+  return execSync(command);
 };
