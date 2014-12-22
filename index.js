@@ -24,6 +24,9 @@ module.exports = function (path) {
   var command = 'git log -n1 --pretty=oneline';
 
   if (path) {
+    if (!fs.existsSync(path)) {
+      throw new Error('Path "' + path + '" does not exist');
+    }
     command += ' -- ' + path;
   }
 

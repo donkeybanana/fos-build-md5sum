@@ -11,4 +11,12 @@ describe('fos-build-md5sum node module', function () {
   it('must return HEAD when no path is specified', function () {
     assert(run(null), 'HEAD is defined');
   });
+
+  it('must throw an error when an invalid path is specified', function () {
+    try {
+      run('nopathtosee');
+    } catch (e) {
+      assert(true, 'Error thrown');
+    }
+  });
 });
