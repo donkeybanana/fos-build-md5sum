@@ -2,6 +2,7 @@
 
 > FrogOS Build MD5sum
 
+Generate a unique identifier for files within a given path.
 
 ## Install
 
@@ -12,11 +13,21 @@ $ npm install --save fos-build-md5sum
 
 ## Usage
 
-```js
-var fos-build-md5sum = require('fos-build-md5sum');
+### Local
 
-fos-build-md5sum('Rainbow');
+```js
+var fos-build-md5sum = require('fos-build-md5sum')
+  , path = '/var/www/app/' // Path to parse
+  , hash;
+
+// MD5
+hash = fos-build-md5sum.md5(path);
+
+// git
+hash = fos-build-md5sum.git(path);
 ```
+
+### Global
 
 ```sh
 $ npm install --global fos-build-md5sum

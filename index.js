@@ -1,4 +1,5 @@
 'use strict';
-module.exports = function (str) {
-  console.log(str || 'Rainbow');
+module.exports = {
+  git: require('./lib/git.js'),
+  md5: require('./lib/md5.js')
 };
