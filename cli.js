@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 'use strict';
 var meow = require('meow');
-var fosBuildMd5sum = require('./');
+var app = require('./');
 
 var cli = meow({
   help: [
     'Usage',
-    '  fos-build-md5sum <input>',
+    '  fos-build-md5sum <path>',
     '',
     'Example',
-    '  fos-build-md5sum Unicorn'
+    '  fos-build-md5sum /var/www'
   ].join('\n')
 });
 
-fosBuildMd5sum(cli.input[0]);
+process.stdout.write(app.md5(cli.input[0]));

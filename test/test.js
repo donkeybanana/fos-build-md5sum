@@ -37,4 +37,26 @@ describe('fos-build-md5sum md5', function () {
       assert(true, 'Error thrown');
     }
   });
+
+  it('must return a consistent hash for the same file tree', function () {
+    var a1 = run.md5('test/case/a');
+    var a2 = run.md5('test/case/a');
+    assert(a1 === a2, 'Result is consistent');
+  });
+
+  it('must return inconsistent hashes for different file trees', function () {
+    var a = run.md5('test/case/a');
+    var b = run.md5('test/case/b');
+    assert(a !== b, 'Result is inconsistent');
+  });
+
+  it('must respect the globbing pattern', function () {
+    var c1 = run.md5('test/case/c/1', { pattern: '*.js' });
+    var c2 = run.md5('test/case/c/2', { pattern: '*.js' });
+    assert(c1 === c2, 'Paths match');
+
+    var c3 = run.md5('test/case/c/1', { pattern: '*' });
+    var c4 = run.md5('test/case/c/2', { pattern: '*' });
+    assert(c3 !== c4, 'Paths don\'t match');
+  });
 });
