@@ -1,6 +1,6 @@
 {
   "name": "fos-build-md5sum",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "FrogOS Build MD5sum",
   "homepage": "https://github.com/donkeybanana/fos-build-md5sum/wiki",
   "author": {
