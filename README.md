@@ -2,7 +2,7 @@
 
 > FrogOS Build MD5sum
 
-Generate a unique identifier for files within a given path.
+Generate a unique identifier for matched files within a given path.
 
 ## Install
 
@@ -10,30 +10,61 @@ Generate a unique identifier for files within a given path.
 $ npm install --save fos-build-md5sum
 ```
 
-
 ## Usage
 
-### Local
+```js
+var fos-build-md5sum = new (require('fos-build-md5sum'))();
+```
+
+## Options
+
+Configuration may be specified via the constructor or the prototype `this.options()` method:
 
 ```js
-var fos-build-md5sum = require('fos-build-md5sum')
-  , path = '/var/www/app/' // Path to parse
-  , hash;
+// Instantiation
+var fos-build-md5sum = new (require('fos-build-md5sum'))({
+  pattern: '*.js'
+});
 
-// MD5
-hash = fos-build-md5sum.md5(path);
-
-// git
-hash = fos-build-md5sum.git(path);
+// Runtime
+fos-build-md5sum.options({
+  root: 'some/new/path'
+});
 ```
 
-### Global
+### `pattern`
 
-```sh
-$ npm install --global fos-build-md5sum
-$ fos-build-md5sum --help
-```
+Default: `**.*`
 
+The [`glob`](https://github.com/isaacs/node-glob) pattern of the files to match.
+
+### `encoding`
+
+Default: `base64`
+
+From the [`hash.digest([encoding])`](http://nodejs.org/api/crypto.html#crypto_hash_digest_encoding) man page:
+
+> Calculates the digest of all of the passed data to be hashed. The encoding can be `hex`, `binary` or `base64`. If no encoding is provided, then a buffer is returned.
+
+### `algorithm`
+
+Default: `md5`
+
+From the [`crypto.createHash(algorithm)`](http://nodejs.org/api/crypto.html#crypto_crypto_createhash_algorithm) man page:
+
+> Creates and returns a hash object, a cryptographic hash with the given algorithm which can be used to generate hash digests.
+>
+> `algorithm` is dependent on the available algorithms supported by the version of OpenSSL on the platform. Examples are `sha1`, `md5`, `sha256`, `sha512`, etc. On recent releases, `openssl list-message-digest-algorithms` will display the available digest algorithms.
+
+### `dest`
+
+Default: `production.md5`
+
+The filepath to read a saved hash from via `this.compare()`, relative to `config.root`.
+
+### `root`
+
+Base path to match `config.pattern`.
 
 ## License
 
