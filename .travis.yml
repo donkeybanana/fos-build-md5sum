@@ -1,3 +1,7 @@
 language: node_js
 node_js:
   - '0.10'
+before_install:
+  - npm install -g grunt-cli
+  - currentfolder=${PWD##*/}
+  - if [ "$currentfolder" != 'fos-build-md5sum' ]; then cd .. && eval "mv $currentfolder fos-build-md5sum" && cd grunt-fos-views; fi
