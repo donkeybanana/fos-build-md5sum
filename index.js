@@ -9,7 +9,8 @@ var defaults = {
   encoding: 'base64',
   algorithm: 'md5',
   pattern: '**/*.*',
-  root: ''
+  dest: 'production.md5',
+  root: './'
 };
 
 function BuildSumMD5(options){
