@@ -5,16 +5,16 @@ var run = new (require('../'))();
 
 describe('fos-build-md5sum md5', function () {
   it('must return hash for a given path', function () {
-    assert(run.compare('test'), 'hash is defined');
+    assert(run.read('test'), 'hash is defined');
   });
 
   it('must return hash when no path is specified', function () {
-    assert(run.compare(null), 'hash is defined');
+    assert(run.read(null), 'hash is defined');
   });
 
   it('must throw an error when an invalid path is specified', function () {
     try {
-      run.compare('nopathtosee');
+      run.read('nopathtosee');
     } catch (e) {
       assert(true, 'Error thrown');
     }
@@ -44,5 +44,15 @@ describe('fos-build-md5sum md5', function () {
     var c3 = run.read('test/case/c/1');
     var c4 = run.read('test/case/c/2');
     assert(c3 !== c4, 'Paths don\'t match');
+  });
+
+  it('must respect cached md5', function () {
+    run.options({ pattern: '*.js' });
+
+    var d1 = run.compare('test/case/d/1/');
+    assert(d1 === true, 'Cache matches read');
+
+    var d2 = run.compare('test/case/d/2/');
+    assert(d2 === false, 'Cache doesn\'t match read');
   });
 });

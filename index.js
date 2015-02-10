@@ -32,16 +32,15 @@ BuildSumMD5.prototype.hash_file = function (path) {
   return this.create_hash(data);
 };
 
-BuildSumMD5.prototype.compare = function(file) {
-  // Only build apps which have been modified
-  var path = p.normalize(this.config.root + '/' + file + '/')
+BuildSumMD5.prototype.compare = function(path) {
+  path = p.normalize(this.config.root + '/' + path + '/');
   var oldsum = -1;
 
-  // Cache path
-  var pathsum = path + this.config.dest;
-
   // Read current version
-  var newsum = this.read(pathsum);
+  var newsum = this.read(path);
+
+  // Cached path
+  var pathsum = path + this.config.dest;
 
   // Read cached version
   if (fs.existsSync(pathsum)) {
@@ -49,18 +48,13 @@ BuildSumMD5.prototype.compare = function(file) {
   }
 
   // Compare versions
-  if (oldsum === newsum) {
-    return false;
-  }
-
-  return true;
+  return oldsum === newsum;
 };
 
 BuildSumMD5.prototype.read = function(path) {
-  if (path) {
-    path = p.normalize(path + '/');
-  }
+  path = p.normalize(this.config.root + '/' + path + '/');
 
+  // Build matching files list
   var manifest = {};
   var files = glob.sync(path + this.config.pattern);
 
@@ -68,6 +62,7 @@ BuildSumMD5.prototype.read = function(path) {
     manifest[file.replace(path,'')] = this.hash_file(file);
   }.bind(this));
 
+  // Return hash of matching files list
   return this.create_hash(JSON.stringify(manifest));
 };
 
