@@ -32,12 +32,12 @@ BuildSumMD5.prototype.hash_file = function (path) {
   return this.create_hash(data);
 };
 
-BuildSumMD5.prototype.compare = function(path) {
-  path = p.normalize(this.config.root + '/' + path + '/');
+BuildSumMD5.prototype.compare = function(file) {
+  var path = p.normalize(this.config.root + '/' + file + '/');
   var oldsum = -1;
 
   // Read current version
-  var newsum = this.read(path);
+  var newsum = this.read(file);
 
   // Cached path
   var pathsum = path + this.config.dest;
@@ -51,15 +51,15 @@ BuildSumMD5.prototype.compare = function(path) {
   return oldsum === newsum;
 };
 
-BuildSumMD5.prototype.read = function(path) {
-  path = p.normalize(this.config.root + '/' + path + '/');
+BuildSumMD5.prototype.read = function(file) {
+  var path = p.normalize(this.config.root + '/' + file + '/');
 
   // Build matching files list
   var manifest = {};
   var files = glob.sync(path + this.config.pattern);
 
-  files.map(function(file){
-    manifest[file.replace(path,'')] = this.hash_file(file);
+  files.map(function(f){
+    manifest[f.replace(path,'')] = this.hash_file(f);
   }.bind(this));
 
   // Return hash of matching files list
