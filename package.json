@@ -20,6 +20,7 @@
   ],
   "dependencies": {
     "glob": "^4.3.2",
+    "hasha": "^1.0.1",
     "meow": "^2.0.0",
     "util-extend": "^1.0.1"
   },

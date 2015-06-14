@@ -1,6 +1,6 @@
 'use strict';
 var extend = require('util-extend');
-var crypto = require('crypto');
+var hasha = require('hasha');
 var glob = require('glob');
 var fs = require('fs');
 var p = require('path');
@@ -23,8 +23,7 @@ BuildSumMD5.prototype.options = function(options) {
 };
 
 BuildSumMD5.prototype.create_hash = function(data) {
-  var hash = crypto.createHash(this.config.algorithm).update(data);
-  return hash.digest(this.config.encoding);
+  return hasha(data, this.config);
 };
 
 BuildSumMD5.prototype.hash_file = function (path) {
